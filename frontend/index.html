@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudentHub | Student Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         NAVBAR
+    ================================= -->
+
+    <header class="navbar">
+
+        <div>
+            <h1>StudentHub</h1>
+
+            <p>Student Management System</p>
+        </div>
+
+        <span
+            class="api-status"
+            id="apiStatus"
+        >
+            Checking API...
+        </span>
+
+    </header>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="container">
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <div>
+
+                <p class="eyebrow">
+                    REST API + FASTAPI
+                </p>
+
+                <h2>
+                    Manage Students Easily
+                </h2>
+
+                <p>
+                    Add, view, update, and delete student records
+                    using your own backend API.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             DASHBOARD GRID
+        ================================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ============================
+                 STUDENT FORM
+            ============================= -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <h3 id="formTitle">
+                        Add Student
+                    </h3>
+
+                    <button
+                        class="reset-btn"
+                        id="resetBtn"
+                        type="button"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <!-- FORM -->
+
+                <form id="studentForm">
+
+                    <!-- Hidden ID for Update -->
+
+                    <input
+                        type="hidden"
+                        id="studentId"
+                        name="studentId"
+                        value=""
+                    >
+
+
+                    <!-- FULL NAME -->
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter student name"
+                        autocomplete="name"
+                        required
+                    >
+
+
+                    <!-- EMAIL -->
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter email"
+                        autocomplete="email"
+                        required
+                    >
+
+
+                    <!-- COURSE -->
+
+                    <label for="course">
+                        Course
+                    </label>
+
+                    <select
+                        id="course"
+                        name="course"
+                        required
+                    >
+
+                        <option value="">
+                            Select Course
+                        </option>
+
+                        <option value="AIML">
+                            AIML
+                        </option>
+
+                        <option value="CSE">
+                            CSE
+                        </option>
+
+                        <option value="ECE">
+                            ECE
+                        </option>
+
+                        <option value="EEE">
+                            EEE
+                        </option>
+
+                        <option value="MECH">
+                            MECH
+                        </option>
+
+                    </select>
+
+
+                    <!-- YEAR -->
+
+                    <label for="year">
+                        Year
+                    </label>
+
+                    <select
+                        id="year"
+                        name="year"
+                        required
+                    >
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <!-- Numeric values for FastAPI -->
+
+                        <option value="1">
+                            1st Year
+                        </option>
+
+                        <option value="2">
+                            2nd Year
+                        </option>
+
+                        <option value="3">
+                            3rd Year
+                        </option>
+
+                        <option value="4">
+                            4th Year
+                        </option>
+
+                    </select>
+
+
+                    <!-- SUBMIT BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="submitBtn"
+                    >
+
+                        Add Student
+
+                    </button>
+
+                </form>
+
+
+                <!-- FORM MESSAGE -->
+
+                <p
+                    id="formMessage"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </div>
+
+
+
+            <!-- ============================
+                 DASHBOARD STATISTICS
+            ============================= -->
+
+            <div class="card stats-card">
+
+                <h3>
+                    Dashboard Overview
+                </h3>
+
+
+                <!-- TOTAL STUDENTS -->
+
+                <div class="stat-box">
+
+                    <span>
+                        Total Students
+                    </span>
+
+                    <strong id="totalStudents">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <!-- API STATUS -->
+
+                <div class="stat-box">
+
+                    <span>
+                        API Status
+                    </span>
+
+                    <strong id="dashboardStatus">
+                        Checking
+                    </strong>
+
+                </div>
+
+
+                <!-- DATABASE -->
+
+                <div class="stat-box">
+
+                    <span>
+                        Database
+                    </span>
+
+                    <strong>
+                        SQLite
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             STUDENT RECORDS
+        ================================= -->
+
+        <section class="card students-section">
+
+
+            <!-- SECTION HEADER -->
+
+            <div class="card-heading">
+
+                <h3>
+                    Student Records
+                </h3>
+
+
+                <button
+                    class="secondary-btn"
+                    id="refreshBtn"
+                    type="button"
+                >
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Course</th>
+
+                            <th>Year</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="studentTableBody">
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                Loading students...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <p>
+            StudentHub • Learning REST APIs with FastAPI
+        </p>
+
+    </footer>
+
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
